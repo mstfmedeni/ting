@@ -101,7 +101,7 @@ open class SPIndicatorView: UIView {
     
     public init(title: String, message: String?) {
         super.init(frame: CGRect.zero)
-        titleAreaFactor = 1.8
+        titleAreaFactor = 1.2
         minimumAreaWidth = 100
         commonInit()
         layout = SPIndicatorLayout.message()
@@ -136,7 +136,6 @@ open class SPIndicatorView: UIView {
     private func setTitle(_ text: String) {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .footnote, weight: .semibold, addPoints: 0)
-        label.numberOfLines = 1
         let style = NSMutableParagraphStyle()
         style.lineBreakMode = .byTruncatingTail
         style.lineSpacing = 3
@@ -145,6 +144,10 @@ open class SPIndicatorView: UIView {
         )
         label.textAlignment = .center
         label.textColor = UIColor.Compability.label.withAlphaComponent(0.6)
+        label.adjustsFontForContentSizeCategory = false
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
+        label.numberOfLines = 2
         titleLabel = label
         addSubview(label)
     }
@@ -152,7 +155,6 @@ open class SPIndicatorView: UIView {
     private func setMessage(_ text: String) {
         let label = UILabel()
         label.font = UIFont.preferredFont(forTextStyle: .footnote, weight: .semibold, addPoints: 0)
-        label.numberOfLines = 1
         let style = NSMutableParagraphStyle()
         style.lineBreakMode = .byTruncatingTail
         style.lineSpacing = 2
@@ -161,6 +163,10 @@ open class SPIndicatorView: UIView {
         )
         label.textAlignment = .center
         label.textColor = UIColor.Compability.label.withAlphaComponent(0.3)
+        label.adjustsFontForContentSizeCategory = false
+        label.adjustsFontSizeToFitWidth = true
+        label.minimumScaleFactor = 0.5
+        label.numberOfLines = 2
         subtitleLabel = label
         addSubview(label)
     }
@@ -390,7 +396,7 @@ open class SPIndicatorView: UIView {
     
     private var areaHeight: CGFloat = 50
     private var minimumAreaWidth: CGFloat = 196
-    private var maximumAreaWidth: CGFloat = 260
+    private var maximumAreaWidth: CGFloat = UIScreen.main.bounds.width*0.85
     private var titleAreaFactor: CGFloat = 2.5
     private var spaceBetweenTitles: CGFloat = 1
     private var spaceBetweenTitlesAndImage: CGFloat = 16
@@ -442,14 +448,14 @@ open class SPIndicatorView: UIView {
         
         let fitTitleToCompact: Bool = {
             guard let titleLabel = self.titleLabel else { return true }
-            titleLabel.numberOfLines = 1
+            titleLabel.numberOfLines = 2
             titleLabel.sizeToFit()
             return titleLabel.frame.width < titlesCompactWidth
         }()
         
         let fitSubtitleToCompact: Bool = {
             guard let subtitleLabel = self.subtitleLabel else { return true }
-            subtitleLabel.numberOfLines = 1
+            subtitleLabel.numberOfLines = 2
             subtitleLabel.sizeToFit()
             return subtitleLabel.frame.width < titlesCompactWidth
         }()
